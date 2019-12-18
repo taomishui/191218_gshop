@@ -58,14 +58,6 @@
     mounted(){
 
       this.$store.dispatch('getCategorys')
-
-      //创建一个swiper实例对象，来实现轮播
-      new Swiper('.swiper-container',{
-        loop: true, // 循环模式选项
-        pagination: {
-          el: '.swiper-pagination',
-        },
-      })
     },
     computed:{
       ...mapState(['address','categorys']),
@@ -91,6 +83,21 @@
           minArr.push(c)
         })
         return arr
+      }
+    },
+    watch:{
+      categorys(value){//categorys数组中有数据了，在异步更新界面之前执行
+        //页面更新就立即创建swiper对象
+        this.$nextTick(() =>{//一旦更新，立即调用
+          //创建一个swiper实例对象，来实现轮播
+          new Swiper('.swiper-container',{
+            loop: true, // 循环模式选项
+            pagination: {
+              el: '.swiper-pagination',
+            },
+          })
+        })
+
       }
     },
     components:{
